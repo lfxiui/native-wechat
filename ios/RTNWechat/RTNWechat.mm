@@ -4,9 +4,9 @@
 #import "RTNWechatRespDataHelper.h"
 
 #ifdef RCT_NEW_ARCH_ENABLED
-#import <React/RCTFabricComponentsPlugins.h>
-#import <React/RCTTurboModule.h>
-#import <React/RCTTurboModuleUtils.h>
+#import "RCTFabricComponentsPlugins.h"
+#import "RCTTurboModule.h"
+#import "RCTTurboModuleUtils.h"
 #import "NativeWechatSpec.h"
 #endif
 
