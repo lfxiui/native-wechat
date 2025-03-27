@@ -26,7 +26,8 @@ Pod::Spec.new do |s|
         "HEADER_SEARCH_PATHS" => "\"$(PODS_ROOT)/boost\" \"$(PODS_ROOT)/Headers/Public/ReactCommon\" \"$(PODS_ROOT)/Headers/Public/React\" \"$(PODS_ROOT)/Headers/Public/React-Core\" \"$(PODS_ROOT)/Headers/Public/React-RCTActionSheet\" \"$(PODS_ROOT)/Headers/Public/React-RCTAnimation\" \"$(PODS_ROOT)/Headers/Public/React-RCTBlob\" \"$(PODS_ROOT)/Headers/Public/React-RCTImage\" \"$(PODS_ROOT)/Headers/Public/React-RCTLinking\" \"$(PODS_ROOT)/Headers/Public/React-RCTNetwork\" \"$(PODS_ROOT)/Headers/Public/React-RCTSettings\" \"$(PODS_ROOT)/Headers/Public/React-RCTText\" \"$(PODS_ROOT)/Headers/Public/React-RCTVibration\"",
         "CLANG_CXX_LANGUAGE_STANDARD" => "c++20",
         "CLANG_CXX_LIBRARY" => "libc++",
-        "OTHER_CPLUSPLUSFLAGS" => "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -std=c++20"
+        "OTHER_CPLUSPLUSFLAGS" => "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -std=c++20",
+        "GCC_PREPROCESSOR_DEFINITIONS" => "$(inherited) RCT_NEW_ARCH_ENABLED=1"
     }
 
     s.dependency "React-Codegen"
@@ -35,6 +36,7 @@ Pod::Spec.new do |s|
     s.dependency "RCTTypeSafety"
     s.dependency "ReactCommon/turbomodule/core"
     s.dependency "ReactCommon"
+    s.dependency "React-RCTFabric"
   end
 
 end
