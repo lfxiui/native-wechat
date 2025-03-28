@@ -10,7 +10,6 @@
 
 @implementation RTNWechatRespDataHelper
 
-#if !IS_SIMULATOR
 + (NSDictionary *)downcastResp: (BaseResp *)baseResp
 {
     NSMutableDictionary* argument = [[NSMutableDictionary alloc] init];
@@ -52,6 +51,5 @@
     
     return argument;
 }
-#endif
 
 @end

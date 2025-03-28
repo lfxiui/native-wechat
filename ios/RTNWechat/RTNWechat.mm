@@ -1,18 +1,7 @@
 #import "RTNWechat.h"
+#import "WXApiObject.h"
 #import "RTNWechatUtils.h"
 #import "RTNWechatRespDataHelper.h"
-
-// 检查是否在模拟器环境
-#if TARGET_IPHONE_SIMULATOR
-#define IS_SIMULATOR 1
-#else
-#define IS_SIMULATOR 0
-#endif
-
-// 根据环境决定是否导入WXApiObject
-#if !IS_SIMULATOR
-#import "WXApiObject.h"
-#endif
 
 #ifdef RCT_NEW_ARCH_ENABLED
 #import "NativeWechatSpec.h"
@@ -41,13 +30,9 @@
 
 - (BOOL)handleOpenURL: (NSNotification *)notification
 {
-    #if IS_SIMULATOR
-    NSLog(@"[模拟器] 无法处理微信回调URL");
-    return NO;
-    #else
     NSDictionary* userInfo = notification.userInfo;
+        
     return [WXApi handleOpenURL:[NSURL URLWithString: userInfo[@"url"]] delegate:self];
-    #endif
 }
 
 - (dispatch_queue_t)methodQueue
@@ -66,16 +51,6 @@ RCT_EXPORT_METHOD(registerApp:
                   (NSDictionary *)params
                   )
 {
-    #if IS_SIMULATOR
-    // 模拟器环境下只保存appId，不进行注册
-    BOOL log = [params valueForKey:@"log"];
-    NSString *appid = [params valueForKey:@"appid"];
-    self.appid = appid;
-    
-    if(log){
-        NSLog(@"[模拟器环境] 微信SDK未加载: appid=%@", appid);
-    }
-    #else
     BOOL log = [params valueForKey:@"log"];
     NSString *appid = [params valueForKey:@"appid"];
     NSString *logPrefix = [params valueForKey:@"logPrefix"];
@@ -90,20 +65,12 @@ RCT_EXPORT_METHOD(registerApp:
     self.appid = appid;
         
     [WXApi registerApp:appid universalLink:universalLink];
-    #endif
 }
 
 RCT_EXPORT_METHOD(checkUniversalLinkReady:
                  (RCTResponseSenderBlock)callback
                  )
 {
-    #if IS_SIMULATOR
-    // 模拟器环境下直接返回错误
-    callback(@[@YES, @{
-        @"suggestion": @"模拟器环境不支持微信SDK",
-        @"errorInfo": @"在模拟器中无法使用WechatOpenSDK"
-    }]);
-    #else
     __block BOOL success = YES;
     
     [WXApi checkUniversalLinkReady:^(WXULCheckStep step, WXCheckULStepResult * _Nonnull result) {
@@ -126,20 +93,14 @@ RCT_EXPORT_METHOD(checkUniversalLinkReady:
             }
         }
     }];
-    #endif
 }
 
 RCT_EXPORT_METHOD(isWechatInstalled:
                   (RCTResponseSenderBlock)callback
                   )
 {
-    #if IS_SIMULATOR
-    // 模拟器环境下始终返回false
-    callback(@[[NSNull null], @(NO)]);
-    #else
     BOOL installed = [WXApi isWXAppInstalled];
     callback(@[[NSNull null], @(installed)]);
-    #endif
 }
 
 RCT_EXPORT_METHOD(sendAuthRequest:
@@ -147,11 +108,6 @@ RCT_EXPORT_METHOD(sendAuthRequest:
                   callback:(RCTResponseSenderBlock)callback
                  )
 {
-    #if IS_SIMULATOR
-    // 模拟器环境下返回失败
-    NSLog(@"[模拟器] 无法使用微信授权");
-    callback(@[@YES]);
-    #else
     SendAuthReq* req = [[SendAuthReq alloc] init];
 
     req.scope = [params valueForKey:@"scope"];
@@ -160,7 +116,6 @@ RCT_EXPORT_METHOD(sendAuthRequest:
     [WXApi sendReq:req completion:^(BOOL success){
         callback(@[[NSNumber numberWithBool:!success]]);
     }];
-    #endif
 }
 
 RCT_EXPORT_METHOD(shareText:
@@ -168,11 +123,6 @@ RCT_EXPORT_METHOD(shareText:
                   callback:(RCTResponseSenderBlock)callback
                   )
 {
-    #if IS_SIMULATOR
-    // 模拟器环境下返回失败
-    NSLog(@"[模拟器] 无法使用微信分享文本");
-    callback(@[@YES]);
-    #else
     SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
 
     req.bText = YES;
@@ -182,7 +132,6 @@ RCT_EXPORT_METHOD(shareText:
     [WXApi sendReq:req completion:^(BOOL success){
         callback(@[[NSNumber numberWithBool:!success]]);
     }];
-    #endif
 }
 
 RCT_EXPORT_METHOD(shareImage:
@@ -190,11 +139,6 @@ RCT_EXPORT_METHOD(shareImage:
                   callback:(RCTResponseSenderBlock)callback
                   )
 {
-    #if IS_SIMULATOR
-    // 模拟器环境下返回失败
-    NSLog(@"[模拟器] 无法使用微信分享图片");
-    callback(@[@YES]);
-    #else
     NSURL *url = [NSURL URLWithString:[params valueForKey:@"src"]];
         
     [RTNWechatUtils downloadFile:url onSuccess:^(NSData * _Nullable data) {
@@ -217,7 +161,6 @@ RCT_EXPORT_METHOD(shareImage:
     } onError:^(NSError *error) {
         callback(@[@1, error.localizedDescription]);
     }];
-    #endif
 }
 
 RCT_EXPORT_METHOD(shareVideo:
@@ -423,17 +366,6 @@ RCT_EXPORT_METHOD(openCustomerService:
 
 - (NSDictionary *)constantsToExport
 {
- #if IS_SIMULATOR
- // 模拟器环境下返回模拟常量
- return @{
-     @"WXSceneSession": @(0),
-     @"WXSceneTimeline": @(1),
-     @"WXSceneFavorite": @(2),
-     @"WXMiniProgramTypeRelease": @(0),
-     @"WXMiniProgramTypeTest": @(1),
-     @"WXMiniProgramTypePreview": @(2)
- };
- #else
  return @{
      @"WXSceneSession": [NSNumber numberWithInt:WXSceneSession],
      @"WXSceneTimeline": [NSNumber numberWithInt:WXSceneTimeline],
@@ -442,7 +374,6 @@ RCT_EXPORT_METHOD(openCustomerService:
      @"WXMiniProgramTypeTest": [NSNumber numberWithInt:WXMiniProgramTypeTest],
      @"WXMiniProgramTypePreview": [NSNumber numberWithInt:WXMiniProgramTypePreview]
  };
- #endif
 }
 
 - (NSArray<NSString *> *)supportedEvents
@@ -451,14 +382,9 @@ RCT_EXPORT_METHOD(openCustomerService:
 }
 
 - (void)onResp:(BaseResp *)baseResp{
-    #if IS_SIMULATOR
-    // 模拟器环境下不执行
-    NSLog(@"[模拟器] 收到微信回调但不处理");
-    #else
     NSDictionary* convertedData = [RTNWechatRespDataHelper downcastResp:baseResp];
     
     [self sendEventWithName:@"NativeWechat_Response" body:convertedData];
-    #endif
 }
 
 - (void)startObserving
