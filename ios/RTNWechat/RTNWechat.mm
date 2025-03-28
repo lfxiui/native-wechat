@@ -4,9 +4,6 @@
 #import "RTNWechatRespDataHelper.h"
 
 #ifdef RCT_NEW_ARCH_ENABLED
-#import <React/RCTFabricComponentsPlugins.h>
-#import <React/RCTTurboModule.h>
-#import <React/RCTTurboModuleUtils.h>
 #import "NativeWechatSpec.h"
 #endif
 
@@ -118,8 +115,7 @@ RCT_EXPORT_METHOD(sendAuthRequest:
     
     [WXApi sendReq:req completion:^(BOOL success){
         callback(@[[NSNumber numberWithBool:!success]]);
-    }];
-}
+    }];}
 
 RCT_EXPORT_METHOD(shareText:
                   (NSDictionary *)params
