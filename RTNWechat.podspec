@@ -23,7 +23,7 @@ Pod::Spec.new do |s|
   if ENV['RCT_NEW_ARCH_ENABLED'] == '1' then
     s.compiler_flags = folly_compiler_flags + " -DRCT_NEW_ARCH_ENABLED=1"
     s.pod_target_xcconfig    = {
-        "HEADER_SEARCH_PATHS" => "\"$(PODS_ROOT)/boost\" \"$(PODS_ROOT)/Headers/Public/ReactCommon\" \"$(PODS_ROOT)/Headers/Public/React\"",
+        "HEADER_SEARCH_PATHS" => "\"$(PODS_ROOT)/boost\"",
         "CLANG_CXX_LANGUAGE_STANDARD" => "c++17"
     }
 
