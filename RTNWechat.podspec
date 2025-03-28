@@ -18,27 +18,30 @@ Pod::Spec.new do |s|
   s.source_files    = "ios/**/*.{h,m,mm,swift}"
 
   s.dependency "React-Core"
-  s.ios.dependency "WechatOpenSDK", :configurations => ['Release', 'Debug'], :platforms => :ios, :target_device => :iphone
-
-  s.pod_target_xcconfig = { 
-    "GCC_PREPROCESSOR_DEFINITIONS" => "$(inherited)",
-    "OTHER_CFLAGS" => "$(inherited)"
-  }
-  s.pod_target_xcconfig['GCC_PREPROCESSOR_DEFINITIONS'] = ['$(inherited)', 'SIMULATOR_AVAILABLE=1']
   
-  s.user_target_xcconfig = { 'GCC_PREPROCESSOR_DEFINITIONS' => ['$(inherited)'] }
-  s.user_target_xcconfig['GCC_PREPROCESSOR_DEFINITIONS'] << 'SIMULATOR_AVAILABLE=1' if ENV['PLATFORM_NAME'].include?('simulator')
-
+  # 设置预处理器宏以便在代码中检测模拟器
+  s.pod_target_xcconfig = { 
+    "GCC_PREPROCESSOR_DEFINITIONS" => "$(inherited) TARGET_IPHONE_SIMULATOR=1",
+    "EXCLUDED_ARCHS[sdk=iphonesimulator*]" => "arm64"
+  }
+  
+  s.user_target_xcconfig = { 
+    "EXCLUDED_ARCHS[sdk=iphonesimulator*]" => "arm64" 
+  }
+  
+  # 添加WechatOpenSDK依赖，但通过EXCLUDED_ARCHS确保模拟器不会链接arm64架构
+  s.dependency "WechatOpenSDK"
+  
   if ENV['RCT_NEW_ARCH_ENABLED'] == '1' then
     s.compiler_flags = folly_compiler_flags + " -DRCT_NEW_ARCH_ENABLED=1"
     s.pod_target_xcconfig.merge!({
-        "HEADER_SEARCH_PATHS" => "\"$(PODS_ROOT)/boost\" \"$(PODS_ROOT)/Headers/Public/ReactCommon\" \"$(PODS_ROOT)/Headers/Public/React\" \"$(PODS_ROOT)/Headers/Public/React-Core\" \"$(PODS_ROOT)/Headers/Public/React-RCTActionSheet\" \"$(PODS_ROOT)/Headers/Public/React-RCTAnimation\" \"$(PODS_ROOT)/Headers/Public/React-RCTBlob\" \"$(PODS_ROOT)/Headers/Public/React-RCTImage\" \"$(PODS_ROOT)/Headers/Public/React-RCTLinking\" \"$(PODS_ROOT)/Headers/Public/React-RCTNetwork\" \"$(PODS_ROOT)/Headers/Public/React-RCTSettings\" \"$(PODS_ROOT)/Headers/Public/React-RCTText\" \"$(PODS_ROOT)/Headers/Public/React-RCTVibration\" \"$(PODS_ROOT)/Headers/Public/RCT-Folly\" \"$(PODS_ROOT)/Headers/Public/ReactCommon\" \"$(PODS_ROOT)/Headers/Public/ReactCommon/TurbomoduleCore\" \"$(PODS_ROOT)/Headers/Public/ReactCommon/TurbomoduleCore/platform/ios\" \"$(PODS_ROOT)/Headers/Public/ReactCommon/TurbomoduleCore/platform/ios/RCTTurboModule.h\" \"$(PODS_ROOT)/Headers/Public/ReactCommon/TurbomoduleCore/platform/ios/RCTTurboModuleUtils.h\" \"$(PODS_ROOT)/Headers/Public/ReactCommon/TurbomoduleCore/platform/ios/RCTFabricComponentsPlugins.h\"",
-        "CLANG_CXX_LANGUAGE_STANDARD" => "c++20",
-        "CLANG_CXX_LIBRARY" => "libc++",
-        "OTHER_CPLUSPLUSFLAGS" => "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -std=c++20 -DFOLLY_HAS_COROUTINES=0 -DFOLLY_NO_EXCEPTION=1 -DFOLLY_NO_RTTI=1 -DFOLLY_NO_COROUTINES=1",
-        "GCC_PREPROCESSOR_DEFINITIONS" => "$(inherited) RCT_NEW_ARCH_ENABLED=1 FOLLY_NO_COROUTINES=1 FOLLY_HAS_COROUTINES=0",
-        "OTHER_CFLAGS" => "-DFOLLY_NO_COROUTINES=1 -DFOLLY_HAS_COROUTINES=0",
-        "OTHER_CFLAGS_FROM_DRIVER" => "-DFOLLY_NO_COROUTINES=1 -DFOLLY_HAS_COROUTINES=0"
+      "HEADER_SEARCH_PATHS" => "\"$(PODS_ROOT)/boost\" \"$(PODS_ROOT)/Headers/Public/ReactCommon\" \"$(PODS_ROOT)/Headers/Public/React\" \"$(PODS_ROOT)/Headers/Public/React-Core\" \"$(PODS_ROOT)/Headers/Public/React-RCTActionSheet\" \"$(PODS_ROOT)/Headers/Public/React-RCTAnimation\" \"$(PODS_ROOT)/Headers/Public/React-RCTBlob\" \"$(PODS_ROOT)/Headers/Public/React-RCTImage\" \"$(PODS_ROOT)/Headers/Public/React-RCTLinking\" \"$(PODS_ROOT)/Headers/Public/React-RCTNetwork\" \"$(PODS_ROOT)/Headers/Public/React-RCTSettings\" \"$(PODS_ROOT)/Headers/Public/React-RCTText\" \"$(PODS_ROOT)/Headers/Public/React-RCTVibration\" \"$(PODS_ROOT)/Headers/Public/RCT-Folly\" \"$(PODS_ROOT)/Headers/Public/ReactCommon\" \"$(PODS_ROOT)/Headers/Public/ReactCommon/TurbomoduleCore\" \"$(PODS_ROOT)/Headers/Public/ReactCommon/TurbomoduleCore/platform/ios\" \"$(PODS_ROOT)/Headers/Public/ReactCommon/TurbomoduleCore/platform/ios/RCTTurboModule.h\" \"$(PODS_ROOT)/Headers/Public/ReactCommon/TurbomoduleCore/platform/ios/RCTTurboModuleUtils.h\" \"$(PODS_ROOT)/Headers/Public/ReactCommon/TurbomoduleCore/platform/ios/RCTFabricComponentsPlugins.h\"",
+      "CLANG_CXX_LANGUAGE_STANDARD" => "c++20",
+      "CLANG_CXX_LIBRARY" => "libc++",
+      "OTHER_CPLUSPLUSFLAGS" => "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -std=c++20 -DFOLLY_HAS_COROUTINES=0 -DFOLLY_NO_EXCEPTION=1 -DFOLLY_NO_RTTI=1 -DFOLLY_NO_COROUTINES=1",
+      "GCC_PREPROCESSOR_DEFINITIONS" => "$(inherited) RCT_NEW_ARCH_ENABLED=1 FOLLY_NO_COROUTINES=1 FOLLY_HAS_COROUTINES=0",
+      "OTHER_CFLAGS" => "-DFOLLY_NO_COROUTINES=1 -DFOLLY_HAS_COROUTINES=0",
+      "OTHER_CFLAGS_FROM_DRIVER" => "-DFOLLY_NO_COROUTINES=1 -DFOLLY_HAS_COROUTINES=0"
     })
 
     s.dependency "React-Codegen"
@@ -49,5 +52,4 @@ Pod::Spec.new do |s|
     s.dependency "ReactCommon"
     s.dependency "React-RCTFabric"
   end
-
 end
