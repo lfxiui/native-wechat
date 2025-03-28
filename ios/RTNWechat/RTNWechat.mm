@@ -5,12 +5,9 @@
 // 检查是否在模拟器环境
 #if TARGET_IPHONE_SIMULATOR
 #define IS_SIMULATOR 1
+#import "WXApiObject_Simulator.h"
 #else
 #define IS_SIMULATOR 0
-#endif
-
-// 根据环境决定是否导入WXApiObject
-#if !IS_SIMULATOR
 #import "WXApiObject.h"
 #endif
 
