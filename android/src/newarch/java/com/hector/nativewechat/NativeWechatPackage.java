@@ -16,7 +16,7 @@ public class NativeWechatPackage extends TurboReactPackage {
   @Nullable
   @Override
   public NativeModule getModule(String name, ReactApplicationContext reactContext) {
-    if (name.equals(NativeWechatModuleImpl.NAME)) {
+    if (name.equals("Wechat")) {
       return new NativeWechatModule(reactContext);
     } else {
       return null;
@@ -30,10 +30,10 @@ public class NativeWechatPackage extends TurboReactPackage {
       boolean isTurboModule = true;
 
       moduleInfos.put(
-        NativeWechatModuleImpl.NAME,
+        "Wechat",
         new ReactModuleInfo(
-          NativeWechatModuleImpl.NAME,
-          NativeWechatModuleImpl.NAME,
+          "Wechat",
+          "Wechat",
           false,
           false,
           true,

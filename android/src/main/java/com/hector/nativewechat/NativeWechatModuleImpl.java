@@ -401,4 +401,8 @@ public class NativeWechatModuleImpl implements IWXAPIEventHandler {
     void run(@Nullable Bitmap str);
   }
 
+  public String getName() {
+    return NAME;
+  }
+
 }

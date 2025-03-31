@@ -18,7 +18,7 @@ public class NativeWechatModule extends NativeWechatSpec {
 
   @Override
   public String getName() {
-    return NativeWechatModuleImpl.NAME;
+    return "Wechat";
   }
 
   @Override
