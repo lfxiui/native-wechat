@@ -85,6 +85,11 @@ android {
   sourceSets {
     main {
       java.srcDirs += ['src/newarch']
+      manifest.srcFile 'src/main/AndroidManifest.xml'
+      res.srcDirs = ['src/main/res']
+      resources.srcDirs = ['src/main/resources']
+      assets.srcDirs = ['src/main/assets']
+      jniLibs.srcDirs = ['src/main/jniLibs']
     }
   }
 
@@ -115,13 +120,13 @@ repositories {
 }
 
 dependencies {
-  implementation("com.facebook.react:react-android")
+  api("com.facebook.react:react-android")
 
   if (hermesEnabled.toBoolean()) {
-    implementation("com.facebook.react:hermes-android")
+    api("com.facebook.react:hermes-android")
   } else {
-    implementation jscFlavor
+    api jscFlavor
   }
 
-  implementation 'com.tencent.mm.opensdk:wechat-sdk-android:+'
+  api 'com.tencent.mm.opensdk:wechat-sdk-android:+'
 }
