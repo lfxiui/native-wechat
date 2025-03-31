@@ -108,16 +108,15 @@ repositories {
 }
 
 dependencies {
-  implementation("com.facebook.react:react-android")
+  compileOnly("com.facebook.react:react-android")
 
   if (hermesEnabled.toBoolean()) {
-    implementation("com.facebook.react:hermes-android")
+    compileOnly("com.facebook.react:hermes-android")
   } else {
-    implementation jscFlavor
+    compileOnly jscFlavor
   }
 
   implementation 'com.tencent.mm.opensdk:wechat-sdk-android:+'
-  implementation 'com.facebook.react:react-native:+'
 }
 
 project.rootProject.allprojects {
