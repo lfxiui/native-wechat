@@ -76,18 +76,14 @@ android {
   defaultConfig {
     minSdkVersion safeExtGet('minSdkVersion', 21)
     targetSdkVersion safeExtGet('targetSdkVersion', 34)
-    buildConfigField("boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString())
+    buildConfigField("boolean", "IS_NEW_ARCHITECTURE_ENABLED", "true")
     buildConfigField("boolean", "IS_HERMES_ENABLED", "true")
     multiDexEnabled true
   }
 
   sourceSets {
     main {
-      if (isNewArchitectureEnabled()) {
-        java.srcDirs += ['src/newarch']
-      } else {
-        java.srcDirs += ['src/oldarch']
-      }
+      java.srcDirs += ['src/newarch']
     }
   }
 
