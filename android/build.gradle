@@ -45,6 +45,12 @@ android {
   buildFeatures {
     buildConfig true
   }
+
+  externalNativeBuild {
+    cmake {
+      path "CMakeLists.txt"
+    }
+  }
 }
 
 repositories {
