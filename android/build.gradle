@@ -96,6 +96,13 @@ android {
     sourceCompatibility JavaVersion.VERSION_17
     targetCompatibility JavaVersion.VERSION_17
   }
+
+  configurations.all {
+    resolutionStrategy {
+      force "com.facebook.react:react-native:0.76.5"
+      force "com.facebook.react:hermes-engine:0.76.5"
+    }
+  }
 }
 
 repositories {
@@ -108,22 +115,13 @@ repositories {
 }
 
 dependencies {
-  compileOnly("com.facebook.react:react-android")
+  implementation("com.facebook.react:react-android")
 
   if (hermesEnabled.toBoolean()) {
-    compileOnly("com.facebook.react:hermes-android")
+    implementation("com.facebook.react:hermes-android")
   } else {
-    compileOnly jscFlavor
+    implementation jscFlavor
   }
 
   implementation 'com.tencent.mm.opensdk:wechat-sdk-android:+'
-}
-
-project.rootProject.allprojects {
-  configurations.all {
-    resolutionStrategy {
-      force "com.facebook.react:react-native:0.76.5"
-      force "com.facebook.react:hermes-engine:0.76.5"
-    }
-  }
 }
