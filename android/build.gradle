@@ -79,6 +79,7 @@ android {
     buildConfigField("boolean", "IS_NEW_ARCHITECTURE_ENABLED", "true")
     buildConfigField("boolean", "IS_HERMES_ENABLED", "true")
     multiDexEnabled true
+    missingDimensionStrategy 'store', 'play'
   }
 
   sourceSets {
