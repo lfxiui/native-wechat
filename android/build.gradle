@@ -117,6 +117,7 @@ dependencies {
   }
 
   implementation 'com.tencent.mm.opensdk:wechat-sdk-android:+'
+  implementation 'com.facebook.react:react-native:+'
 }
 
 project.rootProject.allprojects {
