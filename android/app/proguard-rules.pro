@@ -1,2 +1,0 @@
--keep class com.hector.nativewechat.NativeWechatModule { *; }
--keep class com.hector.nativewechat.NativeWechatModuleImpl { *; }

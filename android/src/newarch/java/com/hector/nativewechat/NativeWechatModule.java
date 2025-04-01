@@ -10,9 +10,12 @@ import com.facebook.react.turbomodule.core.interfaces.TurboModule;
 
 import java.util.Map;
 
-@ReactModule(name = NativeWechatModule.NAME, canOverrideExistingModule = true) // 添加完整注解参数
+@ReactModule(name = NativeWechatModule.NAME)
 public class NativeWechatModule extends ReactContextBaseJavaModule implements TurboModule {
-  // 保持 public 构造函数不变
+  public static final String NAME = "Wechat";
+  private NativeWechatModuleImpl moduleImpl;
+
+  // 将构造方法改为 public
   public NativeWechatModule(ReactApplicationContext context) {
     super(context);
     moduleImpl = new NativeWechatModuleImpl(context);
