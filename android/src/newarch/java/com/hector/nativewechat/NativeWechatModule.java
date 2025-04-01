@@ -5,11 +5,14 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.module.annotations.ReactModule;
 import com.facebook.react.turbomodule.core.interfaces.TurboModule;
 
 import java.util.Map;
 
+@ReactModule(name = NativeWechatModule.NAME)
 public class NativeWechatModule extends ReactContextBaseJavaModule implements TurboModule {
+  public static final String NAME = "Wechat";
   private NativeWechatModuleImpl moduleImpl;
 
   NativeWechatModule(ReactApplicationContext context) {
@@ -19,7 +22,7 @@ public class NativeWechatModule extends ReactContextBaseJavaModule implements Tu
 
   @Override
   public String getName() {
-    return "Wechat";
+    return NAME;
   }
 
   @Override
