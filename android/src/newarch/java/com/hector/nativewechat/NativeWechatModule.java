@@ -10,13 +10,18 @@ import com.facebook.react.turbomodule.core.interfaces.TurboModule;
 
 import java.util.Map;
 
-@ReactModule(name = NativeWechatModule.NAME, canOverrideExistingModule = true) // 添加完整注解参数
+// 修复前错误写法
+@ReactModule(name = NativeWechatModule.NAME, canOverrideExistingModule = true)
+
+// 修复后正确写法
+@ReactModule(name = "Wechat")
 public class NativeWechatModule extends ReactContextBaseJavaModule implements TurboModule {
-  // 保持 public 构造函数不变
-  public NativeWechatModule(ReactApplicationContext context) {
-    super(context);
-    moduleImpl = new NativeWechatModuleImpl(context);
-  }
+    public static final String NAME = "Wechat";
+    
+    public NativeWechatModule(ReactApplicationContext context) {
+        super(context);
+        moduleImpl = new NativeWechatModuleImpl(context);
+    }
 
   @Override
   public String getName() {
