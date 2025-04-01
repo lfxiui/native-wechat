@@ -15,7 +15,8 @@ public class NativeWechatModule extends ReactContextBaseJavaModule implements Tu
   public static final String NAME = "Wechat";
   private NativeWechatModuleImpl moduleImpl;
 
-  NativeWechatModule(ReactApplicationContext context) {
+  // 将构造方法改为 public
+  public NativeWechatModule(ReactApplicationContext context) {
     super(context);
     moduleImpl = new NativeWechatModuleImpl(context);
   }

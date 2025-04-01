@@ -2,6 +2,7 @@ import type {TurboModule} from 'react-native/Libraries/TurboModule/RCTExport';
 import {TurboModuleRegistry, NativeModules} from 'react-native';
 
 const {Wechat} = NativeModules;
+console.log('nmw', Wechat)
 
 export interface Spec extends TurboModule {}
 
