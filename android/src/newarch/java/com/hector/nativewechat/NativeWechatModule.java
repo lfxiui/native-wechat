@@ -2,17 +2,18 @@ package com.hector.nativewechat;
 
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.turbomodule.core.interfaces.TurboModule;
 
 import java.util.Map;
 
-public class NativeWechatModule extends NativeWechatSpec {
+public class NativeWechatModule extends ReactContextBaseJavaModule implements TurboModule {
   private NativeWechatModuleImpl moduleImpl;
 
   NativeWechatModule(ReactApplicationContext context) {
     super(context);
-
     moduleImpl = new NativeWechatModuleImpl(context);
   }
 
@@ -88,5 +89,11 @@ public class NativeWechatModule extends NativeWechatSpec {
 
   @ReactMethod
   public void addListener(String eventName) {
+    // 保持空实现，只是为了满足接口要求
+  }
+  
+  @ReactMethod
+  public void removeListeners(double count) {
+    // 保持空实现，只是为了满足接口要求
   }
 }
