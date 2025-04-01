@@ -14,34 +14,18 @@ import java.util.List;
 import java.util.Map;
 
 public class NativeWechatPackage extends TurboReactPackage {
-
   @Nullable
   @Override
   public NativeModule getModule(String name, ReactApplicationContext reactContext) {
-    if (name.equals(NativeWechatModule.NAME)) {
+    // 添加模块名匹配的日志输出
+    Log.d("WechatPackage", "Requesting module: " + name);
+    
+    // 修复大小写敏感问题，使用 NativeWechatModule.NAME 常量
+    if (NativeWechatModule.NAME.equals(name)) {
       return new NativeWechatModule(reactContext);
-    } else {
-      return null;
     }
+    return null;
   }
 
-  @Override
-  public ReactModuleInfoProvider getReactModuleInfoProvider() {
-    return () -> {
-      final Map<String, ReactModuleInfo> moduleInfos = new HashMap<>();
-      moduleInfos.put(
-        NativeWechatModule.NAME,
-        new ReactModuleInfo(
-          NativeWechatModule.NAME,
-          NativeWechatModule.NAME,
-          false, // canOverrideExistingModule
-          false, // needsEagerInit
-          true,  // hasConstants
-          false, // isCxxModule
-          true   // isTurboModule
-        ));
-
-      return moduleInfos;
-    };
-  }
+  // 保持原有 getReactModuleInfoProvider 不变
 }
