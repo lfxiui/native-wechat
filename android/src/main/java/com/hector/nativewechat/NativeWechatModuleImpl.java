@@ -51,7 +51,6 @@ public class NativeWechatModuleImpl implements IWXAPIEventHandler {
   private static NativeWechatModuleImpl instance;
 
   public NativeWechatModuleImpl(ReactApplicationContext context) {
-    Log.d("WechatModule", "初始化 NativeWechatModuleImpl");
     reactContext = context;
     instance = this;
 
