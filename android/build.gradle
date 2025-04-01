@@ -23,8 +23,6 @@ if (isNewArchitectureEnabled()) {
 
 def enableProguardInReleaseBuilds = false
 
-def jscFlavor = 'org.webkit:android-jsc:+'
-
 android {
   compileSdkVersion safeExtGet('compileSdkVersion', 35)
 
