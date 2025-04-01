@@ -1,4 +1,4 @@
-import type {TurboModule} from 'react-native/Libraries/TurboModule/RCTExport';
+import type {TurboModule} from 'react-native';
 import {TurboModuleRegistry, NativeModules} from 'react-native';
 
 const {Wechat} = NativeModules;
