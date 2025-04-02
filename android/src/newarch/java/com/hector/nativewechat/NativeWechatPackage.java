@@ -12,15 +12,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import android.util.Log;
 
 public class NativeWechatPackage extends BaseReactPackage {
 
   @Nullable
   @Override
   public NativeModule getModule(String name, ReactApplicationContext reactContext) {
-    Log.e("NativeWechatPackage", name);
-    Log.e("NativeWechatPackage", NativeWechatModule.NAME);
     if (name.equals(NativeWechatModule.NAME)) {
       return new NativeWechatModule(reactContext);
     } else {

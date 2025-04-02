@@ -81,3 +81,11 @@ configurations.all {
     force "com.facebook.react:hermes-engine:0.76.5"
   }
 }
+
+if (isNewArchitectureEnabled()) {
+  react {
+    jsRootDir = file("../src/")
+    libraryName = "Wechat"
+    codegenJavaPackageName = "com.hector.nativewechat"
+  }
+}
