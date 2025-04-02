@@ -33,6 +33,7 @@ class NativeWechatUtils {
 
                         val bytes = responseBody.bytes()
                         val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                            ?: throw IOException("Failed to decode bitmap")
                         callback.onResponse(bitmap)
                     }
                 }
@@ -98,7 +99,9 @@ class NativeWechatUtils {
             }
 
             val isBm = ByteArrayInputStream(baos.toByteArray())
-            return BitmapFactory.decodeStream(isBm, null, null)
+            // 确保返回非空的Bitmap
+            return BitmapFactory.decodeStream(isBm, null, null) 
+                ?: image.copy(image.config, true)
         }
     }
 

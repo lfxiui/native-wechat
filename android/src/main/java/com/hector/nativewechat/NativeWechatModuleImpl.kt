@@ -46,7 +46,7 @@ class NativeWechatModuleImpl(context: ReactApplicationContext) : IWXAPIEventHand
         private lateinit var wxApi: IWXAPI
         private lateinit var instance: NativeWechatModuleImpl
         
-        fun getConstants(): Map<String, Any> {
+        fun getConstantsStatic(): Map<String, Any> {
             val constants = HashMap<String, Any>()
             
             constants["WXSceneSession"] = SendMessageToWX.Req.WXSceneSession
@@ -71,6 +71,10 @@ class NativeWechatModuleImpl(context: ReactApplicationContext) : IWXAPIEventHand
         fun handleIntent(intent: Intent) {
             wxApi.handleIntent(intent, instance)
         }
+    }
+    
+    fun getConstants(): Map<String, Any> {
+        return getConstantsStatic()
     }
     
     init {
@@ -119,7 +123,7 @@ class NativeWechatModuleImpl(context: ReactApplicationContext) : IWXAPIEventHand
     }
     
     fun registerApp(request: ReadableMap) {
-        appid = request.getString("appid")
+        appid = request.getString("appid") ?: ""
         registered = true
         
         wxApi = WXAPIFactory.createWXAPI(reactContext, appid, true)
@@ -133,14 +137,14 @@ class NativeWechatModuleImpl(context: ReactApplicationContext) : IWXAPIEventHand
     fun sendAuthRequest(request: ReadableMap, callback: Callback) {
         val req = SendAuth.Req()
         
-        req.scope = request.getString("scope")
-        req.state = request.getString("state")
+        req.scope = request.getString("scope") ?: ""
+        req.state = request.getString("state") ?: ""
         
         callback.invoke(if (wxApi.sendReq(req)) null else true)
     }
     
     fun shareText(request: ReadableMap, callback: Callback) {
-        val text = request.getString("text")
+        val text = request.getString("text") ?: ""
         val scene = request.getInt("scene")
         
         val textObj = WXTextObject()
@@ -158,7 +162,7 @@ class NativeWechatModuleImpl(context: ReactApplicationContext) : IWXAPIEventHand
     }
     
     fun shareImage(request: ReadableMap, callback: Callback) {
-        val url = request.getString("src")
+        val url = request.getString("src") ?: ""
         val scene = request.getInt("scene")
         
         NativeWechatUtils.downloadFileAsBitmap(url, object : NativeWechatUtils.DownloadBitmapCallback {
@@ -188,17 +192,17 @@ class NativeWechatModuleImpl(context: ReactApplicationContext) : IWXAPIEventHand
     }
     
     fun shareVideo(request: ReadableMap, callback: Callback) {
-        val videoUrl = request.getString("videoUrl")
-        val videoLowBandUrl = request.getString("videoLowBandUrl")
-        val title = request.getString("title")
-        val description = request.getString("description")
-        val coverUrl = request.getString("coverUrl")
+        val videoUrl = request.getString("videoUrl") ?: ""
+        val videoLowBandUrl = request.getString("videoLowBandUrl") ?: ""
+        val title = request.getString("title") ?: ""
+        val description = request.getString("description") ?: ""
+        val coverUrl = request.getString("coverUrl") ?: ""
         val scene = request.getInt("scene")
         
         val video = WXVideoObject()
         video.videoUrl = videoUrl
         
-        if (videoLowBandUrl != null) {
+        if (videoLowBandUrl.isNotEmpty()) {
             video.videoLowBandUrl = videoLowBandUrl
         }
         
@@ -221,7 +225,7 @@ class NativeWechatModuleImpl(context: ReactApplicationContext) : IWXAPIEventHand
             callback.invoke(if (wxApi.sendReq(req)) null else true)
         }
         
-        if (!coverUrl.isNullOrEmpty()) {
+        if (coverUrl.isNotEmpty()) {
             NativeWechatUtils.downloadFileAsBitmap(coverUrl, object : NativeWechatUtils.DownloadBitmapCallback {
                 override fun onFailure(@NonNull call: Call, @NonNull e: IOException) {
                     callback.invoke(true, e.message)
@@ -237,10 +241,10 @@ class NativeWechatModuleImpl(context: ReactApplicationContext) : IWXAPIEventHand
     }
     
     fun shareWebpage(request: ReadableMap, callback: Callback) {
-        val webpageUrl = request.getString("webpageUrl")
-        val title = request.getString("title")
-        val description = request.getString("description")
-        val coverUrl = request.getString("coverUrl")
+        val webpageUrl = request.getString("webpageUrl") ?: ""
+        val title = request.getString("title") ?: ""
+        val description = request.getString("description") ?: ""
+        val coverUrl = request.getString("coverUrl") ?: ""
         val scene = request.getInt("scene")
         
         val webpageObj = WXWebpageObject()
@@ -265,7 +269,7 @@ class NativeWechatModuleImpl(context: ReactApplicationContext) : IWXAPIEventHand
             callback.invoke(if (wxApi.sendReq(req)) null else true)
         }
         
-        if (!coverUrl.isNullOrEmpty()) {
+        if (coverUrl.isNotEmpty()) {
             NativeWechatUtils.downloadFileAsBitmap(coverUrl, object : NativeWechatUtils.DownloadBitmapCallback {
                 override fun onFailure(@NonNull call: Call, @NonNull e: IOException) {
                     callback.invoke(true, e.message)
@@ -281,12 +285,12 @@ class NativeWechatModuleImpl(context: ReactApplicationContext) : IWXAPIEventHand
     }
     
     fun shareMiniProgram(request: ReadableMap, callback: Callback) {
-        val webpageUrl = request.getString("webpageUrl")
-        val userName = request.getString("userName")
-        val path = request.getString("path")
-        val title = request.getString("title")
-        val description = request.getString("description")
-        val coverUrl = request.getString("coverUrl")
+        val webpageUrl = request.getString("webpageUrl") ?: ""
+        val userName = request.getString("userName") ?: ""
+        val path = request.getString("path") ?: ""
+        val title = request.getString("title") ?: ""
+        val description = request.getString("description") ?: ""
+        val coverUrl = request.getString("coverUrl") ?: ""
         val withShareTicket = request.getBoolean("withShareTicket")
         val miniProgramType = request.getInt("miniProgramType")
         val scene = request.getInt("scene")
@@ -317,7 +321,7 @@ class NativeWechatModuleImpl(context: ReactApplicationContext) : IWXAPIEventHand
             callback.invoke(if (wxApi.sendReq(req)) null else true)
         }
         
-        if (!coverUrl.isNullOrEmpty()) {
+        if (coverUrl.isNotEmpty()) {
             NativeWechatUtils.downloadFileAsBitmap(coverUrl, object : NativeWechatUtils.DownloadBitmapCallback {
                 override fun onFailure(@NonNull call: Call, @NonNull e: IOException) {
                     callback.invoke(true, e.message)
@@ -335,21 +339,21 @@ class NativeWechatModuleImpl(context: ReactApplicationContext) : IWXAPIEventHand
     fun requestPayment(request: ReadableMap, callback: Callback) {
         val payReq = PayReq()
         
-        payReq.partnerId = request.getString("partnerId")
-        payReq.prepayId = request.getString("prepayId")
-        payReq.nonceStr = request.getString("nonceStr")
-        payReq.timeStamp = request.getString("timeStamp")
-        payReq.sign = request.getString("sign")
+        payReq.partnerId = request.getString("partnerId") ?: ""
+        payReq.prepayId = request.getString("prepayId") ?: ""
+        payReq.nonceStr = request.getString("nonceStr") ?: ""
+        payReq.timeStamp = request.getString("timeStamp") ?: ""
+        payReq.sign = request.getString("sign") ?: ""
         payReq.packageValue = "Sign=WXPay"
-        payReq.extData = request.getString("extData")
-        payReq.appId = appid
+        payReq.extData = request.getString("extData") ?: ""
+        payReq.appId = appid ?: ""
         
         callback.invoke(if (wxApi.sendReq(payReq)) null else true)
     }
     
     fun requestSubscribeMessage(request: ReadableMap, callback: Callback) {
-        val templateId = request.getString("templateId")
-        val reserved = request.getString("reserved")
+        val templateId = request.getString("templateId") ?: ""
+        val reserved = request.getString("reserved") ?: ""
         val scene = request.getInt("int")
         
         val req = SubscribeMessage.Req()
@@ -361,8 +365,8 @@ class NativeWechatModuleImpl(context: ReactApplicationContext) : IWXAPIEventHand
     }
     
     fun launchMiniProgram(request: ReadableMap, callback: Callback) {
-        val userName = request.getString("userName")
-        val path = request.getString("path")
+        val userName = request.getString("userName") ?: ""
+        val path = request.getString("path") ?: ""
         val miniProgramType = request.getInt("miniProgramType")
         
         val req = WXLaunchMiniProgram.Req()
@@ -374,8 +378,8 @@ class NativeWechatModuleImpl(context: ReactApplicationContext) : IWXAPIEventHand
     }
     
     fun openCustomerService(request: ReadableMap, callback: Callback) {
-        val corpId = request.getString("corpid")
-        val url = request.getString("url")
+        val corpId = request.getString("corpid") ?: ""
+        val url = request.getString("url") ?: ""
         
         val req = WXOpenCustomerServiceChat.Req()
         req.corpId = corpId
