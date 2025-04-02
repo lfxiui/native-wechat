@@ -6,7 +6,7 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReadableMap
 
-abstract class NativeWechatSpec internal constructor(context: ReactApplicationContext) : ReactContextBaseJavaModule(context) {
+abstract class WechatSpec internal constructor(context: ReactApplicationContext) : ReactContextBaseJavaModule(context) {
     abstract  fun getName(): String = NAME
 
     abstract  fun getConstants(): Map<String, Any>? = moduleImpl.constants
