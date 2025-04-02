@@ -5,7 +5,7 @@ import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReadableMap
 
-abstract class NativeWechatSpec internal constructor(context: ReactApplicationContext) : NativeWechatSpec(context) {
+abstract class NativeWechatSpec internal constructor(context: ReactApplicationContext) : RNNativeWechatSpec(context) {
     private val moduleImpl = NativeWechatModuleImpl(context)
 
     override fun getName(): String = NAME

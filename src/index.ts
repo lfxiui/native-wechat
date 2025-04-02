@@ -8,7 +8,7 @@ import {
   LaunchMiniProgramResponse,
   UniversalLinkCheckingResponse,
 } from './typing';
-import NativeModule from './NativeWechat';
+import NativeModule from './RNNativeWechat';
 export * from './hooks';
 
 const notification = new Notification();
