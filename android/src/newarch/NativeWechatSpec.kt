@@ -10,9 +10,9 @@ abstract class NativeWechatSpec internal constructor(context: ReactApplicationCo
 
     override fun getName(): String = NAME
 
-    override fun getConstants(): Map<String, Any>? = moduleImpl.constants
+    override fun getConstants(): Map<String, Any>? = moduleImpl.getConstants()
 
-    overridefun sendAuthRequest(request: ReadableMap, callback: Callback) {
+    override fun sendAuthRequest(request: ReadableMap, callback: Callback) {
         moduleImpl.sendAuthRequest(request, callback)
     }
 

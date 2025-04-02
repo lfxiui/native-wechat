@@ -12,7 +12,7 @@ abstract class NativeWechatModule internal constructor(context: ReactApplication
     override fun getName(): String = NAME
 
     @ReactMethod
-    override fun getConstants(): Map<String, Any>? = moduleImpl.constants
+    override fun getConstants(): Map<String, Any>? = moduleImpl.getConstants()
 
     @ReactMethod
     override fun sendAuthRequest(request: ReadableMap, callback: Callback) {
