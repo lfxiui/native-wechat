@@ -58,8 +58,12 @@
     },
     "codegenConfig": {
         "name": "NativeWechatSpec",
-        "type": "modules",
+        "type": "all",
         "jsSrcsDir": "src",
+        "outputDir": {
+            "ios": "ios/generated",
+            "android": "android/generated"
+        },
         "android": {
             "javaPackageName": "com.hector.nativewechat"
         }
