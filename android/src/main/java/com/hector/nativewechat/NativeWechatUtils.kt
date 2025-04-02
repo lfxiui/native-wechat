@@ -101,7 +101,7 @@ class NativeWechatUtils {
             val isBm = ByteArrayInputStream(baos.toByteArray())
             // 确保返回非空的Bitmap
             return BitmapFactory.decodeStream(isBm, null, null) 
-                ?: image.copy(image.config, true)
+                ?: image.copy(image.config ?: Bitmap.Config.ARGB_8888, true)
         }
     }
 
