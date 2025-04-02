@@ -15,7 +15,7 @@ abstract class NativeWechatModule internal constructor(context: ReactApplication
     override fun getConstants(): Map<String, Any>? = moduleImpl.constants
 
     @ReactMethod
-    overridefun sendAuthRequest(request: ReadableMap, callback: Callback) {
+    override fun sendAuthRequest(request: ReadableMap, callback: Callback) {
         moduleImpl.sendAuthRequest(request, callback)
     }
 
