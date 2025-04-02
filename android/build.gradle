@@ -14,7 +14,7 @@ buildscript {
 apply plugin: 'com.android.library'
 
 def isNewArchitectureEnabled() {
-  return project.hasProperty("newArchEnabled") && project.newArchEnabled == "true"
+  return true
 }
 
 if (isNewArchitectureEnabled()) {
