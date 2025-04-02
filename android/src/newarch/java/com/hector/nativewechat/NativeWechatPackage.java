@@ -2,7 +2,7 @@ package com.hector.nativewechat;
 
 import androidx.annotation.Nullable;
 
-import com.facebook.react.TurboReactPackage;
+import com.facebook.react.BaseReactPackage;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.module.model.ReactModuleInfo;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class NativeWechatPackage extends TurboReactPackage {
+public class NativeWechatPackage extends BaseReactPackage {
 
   @Nullable
   @Override
@@ -36,7 +36,6 @@ public class NativeWechatPackage extends TurboReactPackage {
           NativeWechatModule.NAME,
           false, // canOverrideExistingModule
           false, // needsEagerInit
-          true,  // hasConstants
           false, // isCxxModule
           true   // isTurboModule
         ));
