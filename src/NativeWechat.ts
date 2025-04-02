@@ -1,9 +1,6 @@
 import type {TurboModule} from 'react-native';
-import {TurboModuleRegistry, NativeModules} from 'react-native';
-
-const {Wechat} = NativeModules;
-console.log('nmw', Wechat)
+import {TurboModuleRegistry} from 'react-native';
 
 export interface Spec extends TurboModule {}
 
-export default TurboModuleRegistry.get<Spec>('Wechat') || (Wechat as any);
+export default TurboModuleRegistry.getEnforcing<Spec>('Wechat')
