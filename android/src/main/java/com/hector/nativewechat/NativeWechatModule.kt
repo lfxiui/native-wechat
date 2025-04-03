@@ -8,12 +8,12 @@ import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.WritableMap
 
 class NativeWechatModule internal constructor(context: ReactApplicationContext) : WechatSpec(context) {
-    private val moduleImpl = NativeWechatModuleImpl(context)
+    private val moduleImpl = NativeWechat(context)
 
     override fun getName(): String = NAME
 
     @ReactMethod
-    override fun getScene(): WritableMap = moduleImpl.getScene()
+    override fun getConstants(): WritableMap = moduleImpl.getConstants()
 
     @ReactMethod
     override fun sendAuthRequest(request: ReadableMap, callback: Callback) {
@@ -84,6 +84,6 @@ class NativeWechatModule internal constructor(context: ReactApplicationContext) 
     }
 
     companion object {
-        const val NAME = "Wechat"
+        const val NAME = "NativeWechat"
     }
 }

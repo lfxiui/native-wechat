@@ -35,10 +35,10 @@ import java.io.IOException
 import java.util.HashMap
 import okhttp3.Call
 
-class NativeWechatModuleImpl(context: ReactApplicationContext) : IWXAPIEventHandler {
+class NativeWechat(context: ReactApplicationContext) : IWXAPIEventHandler {
     
     companion object {
-        const val NAME = "Wechat"
+        const val NAME = "NativeWechat"
         private const val REDIRECT_INTENT_ACTION = "com.hector.nativewechat.ACTION_REDIRECT_INTENT"
         
         private lateinit var reactContext: ReactApplicationContext
@@ -47,7 +47,7 @@ class NativeWechatModuleImpl(context: ReactApplicationContext) : IWXAPIEventHand
         private lateinit var wxApi: IWXAPI
         private lateinit var instance: NativeWechatModuleImpl
         
-        fun getSceneStatic(): WritableMap {
+        fun getConstantsStatic(): WritableMap {
             val constants = Arguments.createMap()
             
             constants.putInt("WXSceneSession", SendMessageToWX.Req.WXSceneSession)
@@ -74,8 +74,8 @@ class NativeWechatModuleImpl(context: ReactApplicationContext) : IWXAPIEventHand
         }
     }
     
-    fun getScene(): WritableMap {
-        return getSceneStatic()
+    fun getConstants(): WritableMap {
+        return getConstantsStatic()
     }
     
     init {

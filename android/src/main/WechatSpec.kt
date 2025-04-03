@@ -7,11 +7,11 @@ import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.WritableMap
 
 abstract class WechatSpec internal constructor(context: ReactApplicationContext) : NativeWechatSpec(context) {
-    private val moduleImpl = NativeWechatModuleImpl(context)
+    private val moduleImpl = NativeWechat(context)
 
     override fun getName(): String = NAME
 
-    override fun getScene(): WritableMap = moduleImpl.getScene()
+    override fun getConstants(): WritableMap = moduleImpl.getConstants()
 
     override fun sendAuthRequest(request: ReadableMap, callback: Callback) {
         moduleImpl.sendAuthRequest(request, callback)
@@ -70,6 +70,6 @@ abstract class WechatSpec internal constructor(context: ReactApplicationContext)
     }
 
     companion object {
-        const val NAME = "Wechat"
+        const val NAME = "NativeWechat"
     }
 }
