@@ -38,7 +38,7 @@ import okhttp3.Call
 class NativeWechat(context: ReactApplicationContext) : IWXAPIEventHandler {
     
     companion object {
-        const val NAME = "Wechat"
+        const val NAME = "NativeWechat"
         private const val REDIRECT_INTENT_ACTION = "com.hector.nativewechat.ACTION_REDIRECT_INTENT"
         
         private lateinit var reactContext: ReactApplicationContext

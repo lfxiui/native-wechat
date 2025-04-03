@@ -72,6 +72,6 @@ abstract class WechatSpec internal constructor(context: ReactApplicationContext)
     }
 
     companion object {
-        const val NAME = "Wechat"
+        const val NAME = "NativeWechat"
     }
 }
