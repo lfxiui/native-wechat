@@ -8,7 +8,7 @@ import {
   LaunchMiniProgramResponse,
   UniversalLinkCheckingResponse,
 } from './typing';
-import NativeModule from './NativeWechat';
+import NativeWechat from './NativeWechat';
 export * from './hooks';
 
 const notification = new Notification();
@@ -26,7 +26,7 @@ const assertRegisteration = (name: string) => {
 
 export const checkUniversalLinkReady = () => {
   const fn = promisifyNativeFunction<UniversalLinkCheckingResponse>(
-    NativeModule.checkUniversalLinkReady,
+    NativeWechat.checkUniversalLinkReady,
   );
 
   return fn();
@@ -39,11 +39,11 @@ export const registerApp = (request: {
   logPrefix?: string;
 }) => {
   if (!registered) {
-    NativeModule.registerApp(request);
+    NativeWechat.registerApp(request);
     registered = true;
   }
 
-  const nativeEmitter = new NativeEventEmitter(NativeModule);
+  const nativeEmitter = new NativeEventEmitter(NativeWechat);
 
   const listener = nativeEmitter.addListener(
     'NativeWechat_Response',
@@ -58,7 +58,7 @@ export const registerApp = (request: {
 };
 
 export const isWechatInstalled = () => {
-  return promisifyNativeFunction<boolean>(NativeModule.isWechatInstalled)();
+  return promisifyNativeFunction<boolean>(NativeWechat.isWechatInstalled)();
 };
 
 export const sendAuthRequest = (
@@ -70,7 +70,7 @@ export const sendAuthRequest = (
   assertRegisteration('sendAuthRequest');
 
   const fn = promisifyNativeFunction<Promise<boolean>>(
-    NativeModule.sendAuthRequest,
+    NativeWechat.sendAuthRequest,
   );
 
   return new Promise<SendAuthRequestResponse>((resolve, reject) => {
@@ -89,7 +89,7 @@ export const sendAuthRequest = (
 export const shareText = (request: {text: string; scene: number}) => {
   assertRegisteration('shareText');
 
-  const fn = promisifyNativeFunction<Promise<boolean>>(NativeModule.shareText);
+  const fn = promisifyNativeFunction<Promise<boolean>>(NativeWechat.shareText);
 
   return fn(request);
 };
@@ -97,7 +97,7 @@ export const shareText = (request: {text: string; scene: number}) => {
 export const shareImage = (request: {src: string; scene: number}) => {
   assertRegisteration('shareImage');
 
-  const fn = promisifyNativeFunction<Promise<boolean>>(NativeModule.shareImage);
+  const fn = promisifyNativeFunction<Promise<boolean>>(NativeWechat.shareImage);
 
   return fn(request);
 };
@@ -112,7 +112,7 @@ export const shareVideo = (request: {
 }) => {
   assertRegisteration('shareVideo');
 
-  const fn = promisifyNativeFunction<Promise<boolean>>(NativeModule.shareVideo);
+  const fn = promisifyNativeFunction<Promise<boolean>>(NativeWechat.shareVideo);
 
   return fn(request);
 };
@@ -127,7 +127,7 @@ export const shareWebpage = (request: {
   assertRegisteration('shareWebpage');
 
   const fn = promisifyNativeFunction<Promise<boolean>>(
-    NativeModule.shareWebpage,
+    NativeWechat.shareWebpage,
   );
 
   return fn(request);
@@ -146,7 +146,7 @@ export const shareMiniProgram = (request: {
   assertRegisteration('shareMiniProgram');
 
   const fn = promisifyNativeFunction<Promise<boolean>>(
-    NativeModule.shareMiniProgram,
+    NativeWechat.shareMiniProgram,
   );
 
   return fn(request);
@@ -162,7 +162,7 @@ export const requestPayment = (request: {
   assertRegisteration('requestPayment');
 
   const fn = promisifyNativeFunction<Promise<boolean>>(
-    NativeModule.requestPayment,
+    NativeWechat.requestPayment,
   );
 
   return new Promise<NativeWechatResponse>(async (resolve, reject) => {
@@ -186,7 +186,7 @@ export const requestSubscribeMessage = (request: {
   assertRegisteration('requestSubscribeMessage');
 
   const fn = promisifyNativeFunction<Promise<boolean>>(
-    NativeModule.requestSubscribeMessage,
+    NativeWechat.requestSubscribeMessage,
   );
 
   request.scene = +request.scene;
@@ -198,7 +198,7 @@ export const openCustomerService = (request: {corpid: string; url: string}) => {
   assertRegisteration('openCustomerService');
 
   const fn = promisifyNativeFunction<Promise<boolean>>(
-    NativeModule.openCustomerService,
+    NativeWechat.openCustomerService,
   );
 
   return fn(request);
@@ -215,7 +215,7 @@ export const launchMiniProgram = (request: {
   request.miniProgramType = +request.miniProgramType;
 
   const fn = promisifyNativeFunction<Promise<boolean>>(
-    NativeModule.launchMiniProgram,
+    NativeWechat.launchMiniProgram,
   );
 
   notification.once('WXLaunchMiniProgramResp', (error, response) => {
@@ -228,4 +228,4 @@ export const launchMiniProgram = (request: {
 };
 
 export const NativeWechatConstants =
-  NativeModule.getScene() as NativeWechatModuleConstants;
+  NativeWechat?.getConstants?.() as NativeWechatModuleConstants;

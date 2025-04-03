@@ -45,19 +45,19 @@ class NativeWechat(context: ReactApplicationContext) : IWXAPIEventHandler {
         private var appid: String? = null
         private var registered: Boolean = false
         private lateinit var wxApi: IWXAPI
-        private lateinit var instance: NativeWechatModuleImpl
+        private lateinit var instance: NativeWechat
         
-        fun getConstantsStatic(): WritableMap {
-            val constants = Arguments.createMap()
+        fun getConstantsStatic(): Map<String, Any> {
+            val map = HashMap<String, Any>()
             
-            constants.putInt("WXSceneSession", SendMessageToWX.Req.WXSceneSession)
-            constants.putInt("WXSceneTimeline", SendMessageToWX.Req.WXSceneTimeline)
-            constants.putInt("WXSceneFavorite", SendMessageToWX.Req.WXSceneFavorite)
-            constants.putInt("WXMiniProgramTypeRelease", WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE)
-            constants.putInt("WXMiniProgramTypeTest", WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_TEST)
-            constants.putInt("WXMiniProgramTypePreview", WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_PREVIEW)
+            map["WXSceneSession"] = SendMessageToWX.Req.WXSceneSession
+            map["WXSceneTimeline"] = SendMessageToWX.Req.WXSceneTimeline
+            map["WXSceneFavorite"] = SendMessageToWX.Req.WXSceneFavorite
+            map["WXMiniProgramTypeRelease"] = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE
+            map["WXMiniProgramTypeTest"] = WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_TEST
+            map["WXMiniProgramTypePreview"] = WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_PREVIEW
             
-            return constants
+            return map
         }
         
         @Throws(Exception::class)
@@ -74,7 +74,7 @@ class NativeWechat(context: ReactApplicationContext) : IWXAPIEventHandler {
         }
     }
     
-    fun getConstants(): WritableMap {
+    fun getConstants(): Map<String, Any> {
         return getConstantsStatic()
     }
     

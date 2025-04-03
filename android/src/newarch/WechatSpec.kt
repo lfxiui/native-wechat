@@ -5,13 +5,15 @@ import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.WritableMap
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
+import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram
 
 abstract class WechatSpec internal constructor(context: ReactApplicationContext) : NativeWechatSpec(context) {
     private val moduleImpl = NativeWechat(context)
 
     override fun getName(): String = NAME
 
-    override fun getConstants(): WritableMap = moduleImpl.getConstants()
+    override fun getConstants(): Map<String, Any>? = moduleImpl.getConstants()
 
     override fun sendAuthRequest(request: ReadableMap, callback: Callback) {
         moduleImpl.sendAuthRequest(request, callback)

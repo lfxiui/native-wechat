@@ -2,7 +2,6 @@ import type { TurboModule } from 'react-native'
 import { TurboModuleRegistry } from 'react-native'
 
 export interface Spec extends TurboModule {
-  getScene(): Object
   // 添加与 Java 模块中相同的所有方法
   sendAuthRequest(request: Object, callback: (result: Object) => void): void
   registerApp(request: Object): void
@@ -21,4 +20,4 @@ export interface Spec extends TurboModule {
   removeListeners: (count: number) => void
 }
 
-export default TurboModuleRegistry.getEnforcing<Spec>('Wechat')
+export default TurboModuleRegistry.getEnforcing<Spec>('NativeWechat')

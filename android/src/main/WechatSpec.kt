@@ -11,7 +11,7 @@ abstract class WechatSpec internal constructor(context: ReactApplicationContext)
 
     override fun getName(): String = NAME
 
-    override fun getConstants(): WritableMap = moduleImpl.getConstants()
+    override fun getConstants(): Map<String, Any>? = moduleImpl.getConstants()
 
     override fun sendAuthRequest(request: ReadableMap, callback: Callback) {
         moduleImpl.sendAuthRequest(request, callback)
