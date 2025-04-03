@@ -228,4 +228,4 @@ export const launchMiniProgram = (request: {
 };
 
 export const NativeWechatConstants =
-  NativeModule.getConstants() as NativeWechatModuleConstants;
+  NativeModule.getScene() as NativeWechatModuleConstants;

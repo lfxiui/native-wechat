@@ -46,7 +46,7 @@ class NativeWechatModuleImpl(context: ReactApplicationContext) : IWXAPIEventHand
         private lateinit var wxApi: IWXAPI
         private lateinit var instance: NativeWechatModuleImpl
         
-        fun getConstantsStatic(): Map<String, Any> {
+        fun getSceneStatic(): Map<String, Any> {
             val constants = HashMap<String, Any>()
             
             constants["WXSceneSession"] = SendMessageToWX.Req.WXSceneSession
@@ -73,8 +73,8 @@ class NativeWechatModuleImpl(context: ReactApplicationContext) : IWXAPIEventHand
         }
     }
     
-    fun getConstants(): Map<String, Any> {
-        return getConstantsStatic()
+    fun getScene(): Map<String, Any> {
+        return getSceneStatic()
     }
     
     init {

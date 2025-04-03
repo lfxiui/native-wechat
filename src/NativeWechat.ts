@@ -2,7 +2,7 @@ import type { TurboModule } from 'react-native'
 import { TurboModuleRegistry } from 'react-native'
 
 export interface Spec extends TurboModule {
-  getConstants(): Object
+  getScene(): Object
   // 添加与 Java 模块中相同的所有方法
   sendAuthRequest(request: Object, callback: (result: Object) => void): void
   registerApp(request: Object): void
