@@ -5,11 +5,11 @@ import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReadableMap
+import com.facebook.react.bridge.WritableMap
 
 abstract class WechatSpec internal constructor(context: ReactApplicationContext) : ReactContextBaseJavaModule(context) {
 
-    abstract  fun getScene(){
-    }
+    abstract fun getScene(): WritableMap
 
     abstract fun sendAuthRequest(request: ReadableMap, callback: Callback) {
     }

@@ -12,6 +12,7 @@ import com.facebook.react.bridge.Callback
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.WritableMap
+import com.facebook.react.bridge.Arguments
 import com.facebook.react.modules.core.DeviceEventManagerModule
 import com.tencent.mm.opensdk.modelbase.BaseReq
 import com.tencent.mm.opensdk.modelbase.BaseResp
@@ -46,15 +47,15 @@ class NativeWechatModuleImpl(context: ReactApplicationContext) : IWXAPIEventHand
         private lateinit var wxApi: IWXAPI
         private lateinit var instance: NativeWechatModuleImpl
         
-        fun getSceneStatic(): Map<String, Any> {
-            val constants = HashMap<String, Any>()
+        fun getSceneStatic(): WritableMap {
+            val constants = Arguments.createMap()
             
-            constants["WXSceneSession"] = SendMessageToWX.Req.WXSceneSession
-            constants["WXSceneTimeline"] = SendMessageToWX.Req.WXSceneTimeline
-            constants["WXSceneFavorite"] = SendMessageToWX.Req.WXSceneFavorite
-            constants["WXMiniProgramTypeRelease"] = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE
-            constants["WXMiniProgramTypeTest"] = WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_TEST
-            constants["WXMiniProgramTypePreview"] = WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_PREVIEW
+            constants.putInt("WXSceneSession", SendMessageToWX.Req.WXSceneSession)
+            constants.putInt("WXSceneTimeline", SendMessageToWX.Req.WXSceneTimeline)
+            constants.putInt("WXSceneFavorite", SendMessageToWX.Req.WXSceneFavorite)
+            constants.putInt("WXMiniProgramTypeRelease", WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE)
+            constants.putInt("WXMiniProgramTypeTest", WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_TEST)
+            constants.putInt("WXMiniProgramTypePreview", WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_PREVIEW)
             
             return constants
         }
@@ -73,7 +74,7 @@ class NativeWechatModuleImpl(context: ReactApplicationContext) : IWXAPIEventHand
         }
     }
     
-    fun getScene(): Map<String, Any> {
+    fun getScene(): WritableMap {
         return getSceneStatic()
     }
     

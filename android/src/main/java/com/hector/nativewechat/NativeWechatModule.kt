@@ -5,6 +5,7 @@ import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.ReactMethod
+import com.facebook.react.bridge.WritableMap
 
 class NativeWechatModule internal constructor(context: ReactApplicationContext) : WechatSpec(context) {
     private val moduleImpl = NativeWechatModuleImpl(context)
@@ -12,7 +13,7 @@ class NativeWechatModule internal constructor(context: ReactApplicationContext) 
     override fun getName(): String = NAME
 
     @ReactMethod
-    override fun getScene(): Map<String, Any>? = moduleImpl.getScene()
+    override fun getScene(): WritableMap = moduleImpl.getScene()
 
     @ReactMethod
     override fun sendAuthRequest(request: ReadableMap, callback: Callback) {
