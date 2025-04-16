@@ -115,7 +115,8 @@ RCT_EXPORT_METHOD(sendAuthRequest:
     
     [WXApi sendReq:req completion:^(BOOL success){
         callback(@[[NSNumber numberWithBool:!success]]);
-    }];}
+    }];
+}
 
 RCT_EXPORT_METHOD(shareText:
                   (NSDictionary *)params
@@ -141,15 +142,23 @@ RCT_EXPORT_METHOD(shareImage:
     NSURL *url = [NSURL URLWithString:[params valueForKey:@"src"]];
         
     [RTNWechatUtils downloadFile:url onSuccess:^(NSData * _Nullable data) {
+        // 检查图片大小
+        if ([data length] > 10 * 1024 * 1024) {
+            callback(@[@1, @"图片大小超过10MB限制"]);
+            return;
+        }
+        
         WXImageObject *imageObject = [WXImageObject object];
         imageObject.imageData = data;
         
         WXMediaMessage *message = [WXMediaMessage message];
-        message.thumbData = data;
+        // 为缩略图生成较小的图片数据
+        UIImage *image = [UIImage imageWithData:data];
+        UIImage *thumbImage = [self thumbnailWithImage:image size:CGSizeMake(100, 100)];
+        message.thumbData = UIImageJPEGRepresentation(thumbImage, 0.7);
         message.mediaObject = imageObject;
         
         SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
-
         req.bText = NO;
         req.scene = [[params valueForKey:@"scene"] unsignedIntValue];
         req.message = message;
@@ -403,5 +412,38 @@ RCT_EXPORT_METHOD(openCustomerService:
     return std::make_shared<facebook::react::NativeWechatSpecJSI>(params);
 }
 #endif
+
+- (UIImage *)thumbnailWithImage:(UIImage *)image size:(CGSize)size {
+    UIGraphicsBeginImageContext(size);
+    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+
+// 生成缩略图并确保大小不超过32KB
+- (NSData *)generateThumbDataWithImage:(UIImage *)image {
+    CGSize thumbSize = CGSizeMake(100, 100);
+    UIImage *thumbImage = [self thumbnailWithImage:image size:thumbSize];
+    
+    // 从0.7开始尝试压缩
+    CGFloat compression = 0.7f;
+    NSData *thumbData = UIImageJPEGRepresentation(thumbImage, compression);
+    
+    // 如果大小超过32KB，继续压缩
+    while ([thumbData length] > 32 * 1024 && compression > 0.1) {
+        compression -= 0.1;
+        thumbData = UIImageJPEGRepresentation(thumbImage, compression);
+    }
+    
+    // 如果仍然太大，尝试缩小尺寸
+    if ([thumbData length] > 32 * 1024) {
+        thumbSize = CGSizeMake(75, 75); // 更小的尺寸
+        thumbImage = [self thumbnailWithImage:image size:thumbSize];
+        thumbData = UIImageJPEGRepresentation(thumbImage, 0.5);
+    }
+    
+    return thumbData;
+}
 
 @end
