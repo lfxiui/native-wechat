@@ -139,9 +139,9 @@ RCT_EXPORT_METHOD(shareImage:
                   callback:(RCTResponseSenderBlock)callback
                   )
 {
-    NSURL *url = [NSURL URLWithString:[params valueForKey:@"src"]];
-        
-    [RTNWechatUtils downloadFile:url onSuccess:^(NSData * _Nullable data) {
+    NSString *imagePath = [params valueForKey:@"src"];
+    
+    [RTNWechatUtils loadImage:imagePath onSuccess:^(NSData * _Nullable data) {
         // 检查图片大小
         if ([data length] > 10 * 1024 * 1024) {
             callback(@[@1, @"图片大小超过10MB限制"]);

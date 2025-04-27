@@ -12,6 +12,8 @@
 
 + (void)downloadFile:(NSURL *)url onSuccess:(void (^)(NSData * _Nullable data))onSuccess onError:(void (^)(NSError *error))onError;
 
++ (void)loadImage:(NSString *)path onSuccess:(void (^)(NSData * _Nullable data))onSuccess onError:(void (^)(NSError *error))onError;
+
 @end
 
 
