@@ -2,8 +2,15 @@ import type { TurboModule } from 'react-native'
 import { TurboModuleRegistry } from 'react-native'
 
 export interface Spec extends TurboModule {
-  // 添加getConstants方法定义
-  getConstants(): {[key: string]: any}
+  // 添加getConstants方法定义，使用具体的类型而不是any
+  getConstants(): {
+    WXSceneSession: number;
+    WXSceneTimeline: number;
+    WXSceneFavorite: number;
+    WXMiniProgramTypeRelease: number;
+    WXMiniProgramTypeTest: number;
+    WXMiniProgramTypePreview: number;
+  }
   
   // 添加与 Java 模块中相同的所有方法
   sendAuthRequest(request: Object, callback: (result: Object) => void): void
