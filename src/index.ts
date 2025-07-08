@@ -24,24 +24,12 @@ const assertRegisteration = (name: string) => {
   }
 };
 
-const assertNativeModule = () => {
-  if (!NativeWechat) {
-    throw new Error('[Native Wechat]: Native module not found. Make sure the module is properly linked.');
-  }
-};
-
 export const checkUniversalLinkReady = () => {
-  assertNativeModule();
-  // iOS专用方法，Android端不支持
-  if (NativeWechat && 'checkUniversalLinkReady' in NativeWechat) {
-    const fn = promisifyNativeFunction<UniversalLinkCheckingResponse>(
-      (NativeWechat as any).checkUniversalLinkReady,
-    );
-    return fn();
-  } else {
-    // Android端返回默认值或抛出错误
-    return Promise.reject(new Error('checkUniversalLinkReady is not supported on Android'));
-  }
+  const fn = promisifyNativeFunction<UniversalLinkCheckingResponse>(
+    NativeWechat.checkUniversalLinkReady,
+  );
+
+  return fn();
 };
 
 export const registerApp = (request: {
@@ -50,14 +38,12 @@ export const registerApp = (request: {
   log?: boolean;
   logPrefix?: string;
 }) => {
-  assertNativeModule();
-  
-  if (!registered && NativeWechat) {
+  if (!registered) {
     NativeWechat.registerApp(request);
     registered = true;
   }
 
-  const nativeEmitter = new NativeEventEmitter(NativeWechat || undefined);
+  const nativeEmitter = new NativeEventEmitter(NativeWechat);
 
   const listener = nativeEmitter.addListener(
     'NativeWechat_Response',
@@ -72,8 +58,7 @@ export const registerApp = (request: {
 };
 
 export const isWechatInstalled = () => {
-  assertNativeModule();
-  return promisifyNativeFunction<boolean>(NativeWechat!.isWechatInstalled)();
+  return promisifyNativeFunction<boolean>(NativeWechat.isWechatInstalled)();
 };
 
 export const sendAuthRequest = (
@@ -83,10 +68,9 @@ export const sendAuthRequest = (
   },
 ) => {
   assertRegisteration('sendAuthRequest');
-  assertNativeModule();
 
   const fn = promisifyNativeFunction<Promise<boolean>>(
-    NativeWechat!.sendAuthRequest,
+    NativeWechat.sendAuthRequest,
   );
 
   return new Promise<SendAuthRequestResponse>((resolve, reject) => {
@@ -104,18 +88,16 @@ export const sendAuthRequest = (
 
 export const shareText = (request: {text: string; scene: number}) => {
   assertRegisteration('shareText');
-  assertNativeModule();
 
-  const fn = promisifyNativeFunction<Promise<boolean>>(NativeWechat!.shareText);
+  const fn = promisifyNativeFunction<Promise<boolean>>(NativeWechat.shareText);
 
   return fn(request);
 };
 
 export const shareImage = (request: {src: string; scene: number}) => {
   assertRegisteration('shareImage');
-  assertNativeModule();
 
-  const fn = promisifyNativeFunction<Promise<boolean>>(NativeWechat!.shareImage);
+  const fn = promisifyNativeFunction<Promise<boolean>>(NativeWechat.shareImage);
 
   return fn(request);
 };
@@ -129,9 +111,8 @@ export const shareVideo = (request: {
   coverUrl?: string;
 }) => {
   assertRegisteration('shareVideo');
-  assertNativeModule();
 
-  const fn = promisifyNativeFunction<Promise<boolean>>(NativeWechat!.shareVideo);
+  const fn = promisifyNativeFunction<Promise<boolean>>(NativeWechat.shareVideo);
 
   return fn(request);
 };
@@ -144,10 +125,9 @@ export const shareWebpage = (request: {
   coverUrl?: string;
 }) => {
   assertRegisteration('shareWebpage');
-  assertNativeModule();
 
   const fn = promisifyNativeFunction<Promise<boolean>>(
-    NativeWechat!.shareWebpage,
+    NativeWechat.shareWebpage,
   );
 
   return fn(request);
@@ -164,10 +144,9 @@ export const shareMiniProgram = (request: {
   coverUrl?: string;
 }) => {
   assertRegisteration('shareMiniProgram');
-  assertNativeModule();
 
   const fn = promisifyNativeFunction<Promise<boolean>>(
-    NativeWechat!.shareMiniProgram,
+    NativeWechat.shareMiniProgram,
   );
 
   return fn(request);
@@ -181,10 +160,9 @@ export const requestPayment = (request: {
   sign: string;
 }) => {
   assertRegisteration('requestPayment');
-  assertNativeModule();
 
   const fn = promisifyNativeFunction<Promise<boolean>>(
-    NativeWechat!.requestPayment,
+    NativeWechat.requestPayment,
   );
 
   return new Promise<NativeWechatResponse>(async (resolve, reject) => {
@@ -206,10 +184,9 @@ export const requestSubscribeMessage = (request: {
   reserved?: string;
 }) => {
   assertRegisteration('requestSubscribeMessage');
-  assertNativeModule();
 
   const fn = promisifyNativeFunction<Promise<boolean>>(
-    NativeWechat!.requestSubscribeMessage,
+    NativeWechat.requestSubscribeMessage,
   );
 
   request.scene = +request.scene;
@@ -219,10 +196,9 @@ export const requestSubscribeMessage = (request: {
 
 export const openCustomerService = (request: {corpid: string; url: string}) => {
   assertRegisteration('openCustomerService');
-  assertNativeModule();
 
   const fn = promisifyNativeFunction<Promise<boolean>>(
-    NativeWechat!.openCustomerService,
+    NativeWechat.openCustomerService,
   );
 
   return fn(request);
@@ -235,12 +211,11 @@ export const launchMiniProgram = (request: {
   onNavBack?: (res: LaunchMiniProgramResponse) => void;
 }) => {
   assertRegisteration('launchMiniProgram');
-  assertNativeModule();
 
   request.miniProgramType = +request.miniProgramType;
 
   const fn = promisifyNativeFunction<Promise<boolean>>(
-    NativeWechat!.launchMiniProgram,
+    NativeWechat.launchMiniProgram,
   );
 
   notification.once('WXLaunchMiniProgramResp', (error, response) => {
@@ -253,4 +228,4 @@ export const launchMiniProgram = (request: {
 };
 
 export const NativeWechatConstants =
-  NativeWechat?.getConstants?.() as NativeWechatModuleConstants || {};
+  NativeWechat?.getConstants?.() as NativeWechatModuleConstants;

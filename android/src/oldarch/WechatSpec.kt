@@ -46,8 +46,4 @@ abstract class WechatSpec internal constructor(context: ReactApplicationContext)
 
     abstract  fun openCustomerService(request: ReadableMap, callback: Callback) {
     }
-
-    abstract fun addListener(eventType: String)
-
-    abstract fun removeListeners(count: Double)
 }
