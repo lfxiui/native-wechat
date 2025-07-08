@@ -12,7 +12,6 @@ class NativeWechatModule internal constructor(context: ReactApplicationContext) 
 
     override fun getName(): String = NAME
 
-    @ReactMethod
     override fun getConstants(): Map<String, Any>? = moduleImpl.getConstants()
 
     @ReactMethod
