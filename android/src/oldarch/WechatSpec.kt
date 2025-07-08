@@ -9,8 +9,6 @@ import com.facebook.react.bridge.WritableMap
 
 abstract class WechatSpec internal constructor(context: ReactApplicationContext) : ReactContextBaseJavaModule(context) {
 
-    abstract fun getConstants(): Map<String, Any>?
-
     abstract fun sendAuthRequest(request: ReadableMap, callback: Callback) {
     }
 
