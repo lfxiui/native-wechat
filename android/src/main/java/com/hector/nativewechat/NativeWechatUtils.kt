@@ -19,6 +19,39 @@ class NativeWechatUtils {
     companion object {
         private val client = OkHttpClient()
 
+        fun loadImage(url: String, callback: DownloadBitmapCallback) {
+            // 检查是否是本地文件路径
+            if (url.startsWith("file://") || (!url.startsWith("http://") && !url.startsWith("https://"))) {
+                try {
+                    // 处理本地文件
+                    val filePath = if (url.startsWith("file://")) {
+                        url.substring(7) // 移除 "file://" 前缀
+                    } else {
+                        url
+                    }
+                    
+                    // 读取本地文件
+                    val bitmap = BitmapFactory.decodeFile(filePath)
+                    if (bitmap != null) {
+                        callback.onResponse(bitmap)
+                    } else {
+                        callback.onFailure(
+                            client.newCall(Request.Builder().url("http://dummy").build()),
+                            IOException("无法读取图片文件: $filePath")
+                        )
+                    }
+                } catch (e: Exception) {
+                    callback.onFailure(
+                        client.newCall(Request.Builder().url("http://dummy").build()),
+                        IOException("读取本地文件失败: ${e.message}")
+                    )
+                }
+            } else {
+                // 处理网络图片
+                downloadFileAsBitmap(url, callback)
+            }
+        }
+
         fun downloadFileAsBitmap(url: String, callback: DownloadBitmapCallback) {
             val request = Request.Builder().url(url).build()
 

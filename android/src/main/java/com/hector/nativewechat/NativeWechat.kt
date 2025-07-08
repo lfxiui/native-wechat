@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Build
 import androidx.annotation.NonNull
 import androidx.annotation.Nullable
@@ -166,7 +167,7 @@ class NativeWechat(context: ReactApplicationContext) : IWXAPIEventHandler {
         val url = request.getString("src") ?: ""
         val scene = request.getInt("scene")
         
-        NativeWechatUtils.downloadFileAsBitmap(url, object : NativeWechatUtils.DownloadBitmapCallback {
+        NativeWechatUtils.loadImage(url, object : NativeWechatUtils.DownloadBitmapCallback {
             override fun onFailure(@NonNull call: Call, @NonNull e: IOException) {
                 callback.invoke(true, e.message)
             }
@@ -227,7 +228,7 @@ class NativeWechat(context: ReactApplicationContext) : IWXAPIEventHandler {
         }
         
         if (coverUrl.isNotEmpty()) {
-            NativeWechatUtils.downloadFileAsBitmap(coverUrl, object : NativeWechatUtils.DownloadBitmapCallback {
+            NativeWechatUtils.loadImage(coverUrl, object : NativeWechatUtils.DownloadBitmapCallback {
                 override fun onFailure(@NonNull call: Call, @NonNull e: IOException) {
                     callback.invoke(true, e.message)
                 }
@@ -271,7 +272,7 @@ class NativeWechat(context: ReactApplicationContext) : IWXAPIEventHandler {
         }
         
         if (coverUrl.isNotEmpty()) {
-            NativeWechatUtils.downloadFileAsBitmap(coverUrl, object : NativeWechatUtils.DownloadBitmapCallback {
+            NativeWechatUtils.loadImage(coverUrl, object : NativeWechatUtils.DownloadBitmapCallback {
                 override fun onFailure(@NonNull call: Call, @NonNull e: IOException) {
                     callback.invoke(true, e.message)
                 }
@@ -323,7 +324,7 @@ class NativeWechat(context: ReactApplicationContext) : IWXAPIEventHandler {
         }
         
         if (coverUrl.isNotEmpty()) {
-            NativeWechatUtils.downloadFileAsBitmap(coverUrl, object : NativeWechatUtils.DownloadBitmapCallback {
+            NativeWechatUtils.loadImage(coverUrl, object : NativeWechatUtils.DownloadBitmapCallback {
                 override fun onFailure(@NonNull call: Call, @NonNull e: IOException) {
                     callback.invoke(true, e.message)
                 }
