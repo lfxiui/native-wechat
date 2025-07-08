@@ -13,7 +13,17 @@ abstract class WechatSpec internal constructor(context: ReactApplicationContext)
 
     override fun getName(): String = NAME
 
-    override fun getConstants(): Map<String, Any>? = moduleImpl.getConstants()
+    // 在新架构中，getConstants 是 final 方法，我们需要实现 getTypedExportedConstants
+    override fun getTypedExportedConstants(): MutableMap<String, Any> {
+        val constants = mutableMapOf<String, Any>()
+        constants["WXSceneSession"] = SendMessageToWX.Req.WXSceneSession
+        constants["WXSceneTimeline"] = SendMessageToWX.Req.WXSceneTimeline
+        constants["WXSceneFavorite"] = SendMessageToWX.Req.WXSceneFavorite
+        constants["WXMiniProgramTypeRelease"] = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE
+        constants["WXMiniProgramTypeTest"] = WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_TEST
+        constants["WXMiniProgramTypePreview"] = WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_PREVIEW
+        return constants
+    }
 
     override fun sendAuthRequest(request: ReadableMap, callback: Callback) {
         moduleImpl.sendAuthRequest(request, callback)

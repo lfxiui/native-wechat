@@ -12,8 +12,7 @@ class NativeWechatModule internal constructor(context: ReactApplicationContext) 
 
     override fun getName(): String = NAME
 
-    @ReactMethod
-    override fun getConstants(): Map<String, Any>? = moduleImpl.getConstants()
+    // getConstants 已经在 WechatSpec 中通过 getTypedExportedConstants 实现
 
     @ReactMethod
     override fun sendAuthRequest(request: ReadableMap, callback: Callback) {
