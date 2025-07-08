@@ -25,6 +25,18 @@ const assertRegisteration = (name: string) => {
 };
 
 export const checkUniversalLinkReady = () => {
+  if (!NativeWechat) {
+    throw new Error('Native Wechat module is not available');
+  }
+  
+  if (!NativeWechat.checkUniversalLinkReady) {
+    // Android 端不支持此方法，返回一个假的成功响应
+    return Promise.resolve({
+      suggestion: '',
+      errorInfo: '',
+    } as UniversalLinkCheckingResponse);
+  }
+
   const fn = promisifyNativeFunction<UniversalLinkCheckingResponse>(
     NativeWechat.checkUniversalLinkReady,
   );
@@ -38,6 +50,10 @@ export const registerApp = (request: {
   log?: boolean;
   logPrefix?: string;
 }) => {
+  if (!NativeWechat) {
+    throw new Error('Native Wechat module is not available');
+  }
+  
   if (!registered) {
     NativeWechat.registerApp(request);
     registered = true;
@@ -58,6 +74,9 @@ export const registerApp = (request: {
 };
 
 export const isWechatInstalled = () => {
+  if (!NativeWechat) {
+    throw new Error('Native Wechat module is not available');
+  }
   return promisifyNativeFunction<boolean>(NativeWechat.isWechatInstalled)();
 };
 
@@ -68,6 +87,9 @@ export const sendAuthRequest = (
   },
 ) => {
   assertRegisteration('sendAuthRequest');
+  if (!NativeWechat) {
+    throw new Error('Native Wechat module is not available');
+  }
 
   const fn = promisifyNativeFunction<Promise<boolean>>(
     NativeWechat.sendAuthRequest,
@@ -88,6 +110,9 @@ export const sendAuthRequest = (
 
 export const shareText = (request: {text: string; scene: number}) => {
   assertRegisteration('shareText');
+  if (!NativeWechat) {
+    throw new Error('Native Wechat module is not available');
+  }
 
   const fn = promisifyNativeFunction<Promise<boolean>>(NativeWechat.shareText);
 
@@ -96,6 +121,9 @@ export const shareText = (request: {text: string; scene: number}) => {
 
 export const shareImage = (request: {src: string; scene: number}) => {
   assertRegisteration('shareImage');
+  if (!NativeWechat) {
+    throw new Error('Native Wechat module is not available');
+  }
 
   const fn = promisifyNativeFunction<Promise<boolean>>(NativeWechat.shareImage);
 
@@ -111,6 +139,9 @@ export const shareVideo = (request: {
   coverUrl?: string;
 }) => {
   assertRegisteration('shareVideo');
+  if (!NativeWechat) {
+    throw new Error('Native Wechat module is not available');
+  }
 
   const fn = promisifyNativeFunction<Promise<boolean>>(NativeWechat.shareVideo);
 
@@ -125,6 +156,9 @@ export const shareWebpage = (request: {
   coverUrl?: string;
 }) => {
   assertRegisteration('shareWebpage');
+  if (!NativeWechat) {
+    throw new Error('Native Wechat module is not available');
+  }
 
   const fn = promisifyNativeFunction<Promise<boolean>>(
     NativeWechat.shareWebpage,
@@ -144,6 +178,9 @@ export const shareMiniProgram = (request: {
   coverUrl?: string;
 }) => {
   assertRegisteration('shareMiniProgram');
+  if (!NativeWechat) {
+    throw new Error('Native Wechat module is not available');
+  }
 
   const fn = promisifyNativeFunction<Promise<boolean>>(
     NativeWechat.shareMiniProgram,
@@ -160,6 +197,9 @@ export const requestPayment = (request: {
   sign: string;
 }) => {
   assertRegisteration('requestPayment');
+  if (!NativeWechat) {
+    throw new Error('Native Wechat module is not available');
+  }
 
   const fn = promisifyNativeFunction<Promise<boolean>>(
     NativeWechat.requestPayment,
@@ -184,6 +224,9 @@ export const requestSubscribeMessage = (request: {
   reserved?: string;
 }) => {
   assertRegisteration('requestSubscribeMessage');
+  if (!NativeWechat) {
+    throw new Error('Native Wechat module is not available');
+  }
 
   const fn = promisifyNativeFunction<Promise<boolean>>(
     NativeWechat.requestSubscribeMessage,
@@ -196,6 +239,9 @@ export const requestSubscribeMessage = (request: {
 
 export const openCustomerService = (request: {corpid: string; url: string}) => {
   assertRegisteration('openCustomerService');
+  if (!NativeWechat) {
+    throw new Error('Native Wechat module is not available');
+  }
 
   const fn = promisifyNativeFunction<Promise<boolean>>(
     NativeWechat.openCustomerService,
@@ -211,6 +257,9 @@ export const launchMiniProgram = (request: {
   onNavBack?: (res: LaunchMiniProgramResponse) => void;
 }) => {
   assertRegisteration('launchMiniProgram');
+  if (!NativeWechat) {
+    throw new Error('Native Wechat module is not available');
+  }
 
   request.miniProgramType = +request.miniProgramType;
 
@@ -227,5 +276,12 @@ export const launchMiniProgram = (request: {
   return fn(request);
 };
 
-export const NativeWechatConstants =
-  NativeWechat?.getConstants?.() as NativeWechatModuleConstants;
+export const NativeWechatConstants: NativeWechatModuleConstants = 
+  NativeWechat?.getConstants?.() || {
+    WXSceneSession: 0,
+    WXSceneTimeline: 1,
+    WXSceneFavorite: 2,
+    WXMiniProgramTypeRelease: 0,
+    WXMiniProgramTypeTest: 1,
+    WXMiniProgramTypePreview: 2,
+  };
