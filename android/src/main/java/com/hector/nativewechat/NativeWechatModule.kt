@@ -16,70 +16,70 @@ class NativeWechatModule internal constructor(context: ReactApplicationContext) 
     override fun getConstants(): Map<String, Any>? = moduleImpl.getConstants()
 
     @ReactMethod
-    override fun sendAuthRequest(request: ReadableMap, callback: Callback) {
+    fun sendAuthRequest(request: ReadableMap, callback: Callback) {
         moduleImpl.sendAuthRequest(request, callback)
     }
 
     @ReactMethod
-    override fun registerApp(request: ReadableMap) {
+    fun registerApp(request: ReadableMap) {
         moduleImpl.registerApp(request)
     }
 
     @ReactMethod
-    override fun shareText(request: ReadableMap, callback: Callback) {
+    fun shareText(request: ReadableMap, callback: Callback) {
         moduleImpl.shareText(request, callback)
     }
 
     @ReactMethod
-    override fun shareImage(request: ReadableMap, callback: Callback) {
+    fun shareImage(request: ReadableMap, callback: Callback) {
         moduleImpl.shareImage(request, callback)
     }
 
     @ReactMethod
-    override fun shareVideo(request: ReadableMap, callback: Callback) {
+    fun shareVideo(request: ReadableMap, callback: Callback) {
         moduleImpl.shareVideo(request, callback)
     }
 
     @ReactMethod
-    override fun shareWebpage(request: ReadableMap, callback: Callback) {
+    fun shareWebpage(request: ReadableMap, callback: Callback) {
         moduleImpl.shareWebpage(request, callback)
     }
 
     @ReactMethod
-    override fun shareMiniProgram(request: ReadableMap, callback: Callback) {
+    fun shareMiniProgram(request: ReadableMap, callback: Callback) {
         moduleImpl.shareMiniProgram(request, callback)
     }
 
     @ReactMethod
-    override fun isWechatInstalled(callback: Callback) {
+    fun isWechatInstalled(callback: Callback) {
         moduleImpl.isWechatInstalled(callback)
     }
 
     @ReactMethod
-    override fun requestPayment(request: ReadableMap, callback: Callback) {
+    fun requestPayment(request: ReadableMap, callback: Callback) {
         moduleImpl.requestPayment(request, callback)
     }
 
     @ReactMethod
-    override fun requestSubscribeMessage(request: ReadableMap, callback: Callback) {
+    fun requestSubscribeMessage(request: ReadableMap, callback: Callback) {
         moduleImpl.requestSubscribeMessage(request, callback)
     }
 
     @ReactMethod
-    override fun launchMiniProgram(request: ReadableMap, callback: Callback) {
+    fun launchMiniProgram(request: ReadableMap, callback: Callback) {
         moduleImpl.launchMiniProgram(request, callback)
     }
 
     @ReactMethod
-    override fun openCustomerService(request: ReadableMap, callback: Callback) {
+    fun openCustomerService(request: ReadableMap, callback: Callback) {
         moduleImpl.openCustomerService(request, callback)
     }
 
-    override fun addListener(eventType: String) {
+    fun addListener(eventType: String) {
 
     }
 
-    override fun removeListeners(count: Double) {
+    fun removeListeners(count: Double) {
 
     }
 
