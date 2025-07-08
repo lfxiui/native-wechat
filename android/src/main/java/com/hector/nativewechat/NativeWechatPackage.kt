@@ -9,8 +9,8 @@ import java.util.HashMap
 
 class NativeWechatPackage : TurboReactPackage() {
   override fun getModule(name: String, reactContext: ReactApplicationContext): NativeModule? {
-    return if (name == NativeWechatModule.NAME) {
-      NativeWechatModule(reactContext)
+    return if (name == NativeWechat.NAME) {
+      NativeWechat(reactContext)
     } else {
       null
     }
@@ -20,9 +20,9 @@ class NativeWechatPackage : TurboReactPackage() {
     return ReactModuleInfoProvider {
       val moduleInfos: MutableMap<String, ReactModuleInfo> = HashMap()
       val isTurboModule: Boolean = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED
-      moduleInfos[NativeWechatModule.NAME] = ReactModuleInfo(
-        NativeWechatModule.NAME,
-        NativeWechatModule.NAME,
+      moduleInfos[NativeWechat.NAME] = ReactModuleInfo(
+        NativeWechat.NAME,
+        NativeWechat.NAME,
         false,  // canOverrideExistingModule
         false,  // needsEagerInit
         true,  // hasConstants
