@@ -3,7 +3,14 @@ import { TurboModuleRegistry } from 'react-native'
 
 export interface Spec extends TurboModule {
   // 添加与 Java 模块中相同的所有方法
-  getConstants(): { [key: string]: any }
+  getConstants(): {
+    WXSceneSession: number;
+    WXSceneTimeline: number;
+    WXSceneFavorite: number;
+    WXMiniProgramTypeRelease: number;
+    WXMiniProgramTypeTest: number;
+    WXMiniProgramTypePreview: number;
+  }
   sendAuthRequest(request: Object, callback: (result: Object) => void): void
   registerApp(request: Object): void
   shareText(request: Object, callback: (result: Object) => void): void
