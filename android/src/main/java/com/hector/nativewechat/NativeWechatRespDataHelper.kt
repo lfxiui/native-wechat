@@ -14,10 +14,23 @@ class NativeWechatRespDataHelper {
         fun downcastResp(baseResp: BaseResp): WritableMap {
             val argument = Arguments.createMap()
 
+            // 首先根据响应类型设置事件类型，无论成功还是失败
+            when {
+                baseResp is SendAuth.Resp -> {
+                    type = "SendAuthResp"
+                }
+                baseResp.type == ConstantsAPI.COMMAND_LAUNCH_WX_MINIPROGRAM -> {
+                    type = "WXLaunchMiniProgramResp"
+                }
+                baseResp.type == ConstantsAPI.COMMAND_PAY_BY_WX -> {
+                    type = "PayResp"
+                }
+            }
+
+            // 只有成功时才填充详细数据
             if (baseResp.errCode == 0) {
                 when {
                     baseResp is SendAuth.Resp -> {
-                        type = "SendAuthResp"
                         val resp = baseResp
 
                         argument.putString("code", resp.code)
@@ -27,14 +40,9 @@ class NativeWechatRespDataHelper {
                     }
 
                     baseResp.type == ConstantsAPI.COMMAND_LAUNCH_WX_MINIPROGRAM -> {
-                        type = "WXLaunchMiniProgramResp"
                         val resp = baseResp as WXLaunchMiniProgram.Resp
 
                         argument.putString("extMsg", resp.extMsg)
-                    }
-
-                    baseResp.type == ConstantsAPI.COMMAND_PAY_BY_WX -> {
-                        type = "PayResp"
                     }
                 }
             }
