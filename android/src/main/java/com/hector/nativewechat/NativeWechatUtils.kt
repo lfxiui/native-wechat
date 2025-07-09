@@ -74,37 +74,25 @@ class NativeWechatUtils {
         }
 
         fun bmpToByteArray(bmp: Bitmap, needRecycle: Boolean): ByteArray {
-            val i: Int
-            val j: Int
-            if (bmp.height > bmp.width) {
-                i = bmp.width
-                j = bmp.width
-            } else {
-                i = bmp.height
-                j = bmp.height
-            }
-
-            val localBitmap = Bitmap.createBitmap(i, j, Bitmap.Config.RGB_565)
-            val localCanvas = Canvas(localBitmap)
-
-            localCanvas.drawBitmap(bmp, Rect(0, 0, i, j), Rect(0, 0, i, j), null)
+            // 创建100x100的缩略图，保持比例
+            val thumbSize = 100
+            val scaledBitmap = Bitmap.createScaledBitmap(bmp, thumbSize, thumbSize, true)
+            
+            val localByteArrayOutputStream = ByteArrayOutputStream()
+            scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 70, localByteArrayOutputStream)
+            scaledBitmap.recycle()
+            
             if (needRecycle) {
                 bmp.recycle()
             }
             
-            val localByteArrayOutputStream = ByteArrayOutputStream()
-            localBitmap.compress(Bitmap.CompressFormat.JPEG, 100, localByteArrayOutputStream)
-            localBitmap.recycle()
-            
             val arrayOfByte = localByteArrayOutputStream.toByteArray()
             try {
                 localByteArrayOutputStream.close()
-                return arrayOfByte
             } catch (e: Exception) {
                 // 处理异常
             }
             
-            // 注意：原Java代码有一个无限循环，这里修正了设计
             return arrayOfByte
         }
 
@@ -117,12 +105,13 @@ class NativeWechatUtils {
                 // 重置baos即清空baos
                 baos.reset()
                 if (options > 10) {
-                    options -= 8
+                    options -= 10
                 } else {
+                    // 如果压缩质量已经很低了，就缩小图片尺寸到100x100
                     val scaledBitmap = Bitmap.createScaledBitmap(
                         image, 
-                        280, 
-                        image.height / image.width * 280, 
+                        100, 
+                        100, 
                         true
                     )
                     return compressImage(scaledBitmap, size)

@@ -179,7 +179,7 @@ class NativeWechat(context: ReactApplicationContext) : IWXAPIEventHandler {
                 msg.mediaObject = imgObj
                 
                 msg.thumbData = NativeWechatUtils.bmpToByteArray(
-                    NativeWechatUtils.compressImage(bitmap, 128),
+                    NativeWechatUtils.compressImage(bitmap, 32),
                     true
                 )
                 bitmap.recycle()
@@ -215,7 +215,7 @@ class NativeWechat(context: ReactApplicationContext) : IWXAPIEventHandler {
         val onCoverDownloaded = BitmapDownload { bitmap ->
             if (bitmap != null) {
                 msg.thumbData = NativeWechatUtils.bmpToByteArray(
-                    NativeWechatUtils.compressImage(bitmap, 128),
+                    NativeWechatUtils.compressImage(bitmap, 32),
                     true
                 )
             }
@@ -259,7 +259,7 @@ class NativeWechat(context: ReactApplicationContext) : IWXAPIEventHandler {
         val onCoverDownloaded = BitmapDownload { bitmap ->
             if (bitmap != null) {
                 msg.thumbData = NativeWechatUtils.bmpToByteArray(
-                    NativeWechatUtils.compressImage(bitmap, 128),
+                    NativeWechatUtils.compressImage(bitmap, 32),
                     true
                 )
             }
@@ -311,7 +311,7 @@ class NativeWechat(context: ReactApplicationContext) : IWXAPIEventHandler {
         val onCoverDownloaded = BitmapDownload { bitmap ->
             if (bitmap != null) {
                 msg.thumbData = NativeWechatUtils.bmpToByteArray(
-                    NativeWechatUtils.compressImage(bitmap, 128),
+                    NativeWechatUtils.compressImage(bitmap, 32),
                     true
                 )
             }
